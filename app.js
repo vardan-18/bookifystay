@@ -72,8 +72,11 @@ main().then(() => {
 });
 
 async function main() {
-    mongoose.connect('mongodb://127.0.0.1:27017/bookifystay');
+    const dbUrl = process.env.ATLAS_URI || 'mongodb://127.0.0.1:27017/bookifystay';
+    await mongoose.connect(dbUrl);
+    console.log("connected to db");
 }
+
 
 
 app.use("/listing", listingRouter);
