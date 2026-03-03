@@ -1,0 +1,179 @@
+/* login.css */
+
+/* Center the login card vertically and horizontally */
+.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 140px); /* Adjusts for header/footer height */
+    padding: 2rem 1rem;
+    background-color: transparent; /* Lets body background show through */
+}
+
+/* The Main Card */
+.login-container {
+    background: white;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out; /* Uses the animation from your global style */
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Header Section (Welcome Back) */
+.login-header {
+    padding: 2.5rem 2rem 1rem;
+    text-align: center;
+}
+
+.login-header h1 {
+    color: var(--primary);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.login-header p {
+    color: var(--gray);
+    font-size: 1rem;
+}
+
+/* Form Body */
+.login-body {
+    padding: 1rem 2rem 2.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.95rem;
+}
+
+/* Input Fields styling */
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: var(--dark);
+    transition: var(--transition);
+    background-color: #fcfcfc;
+}
+
+.form-control:focus {
+    border-color: var(--secondary);
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); /* Subtle glow using your secondary color */
+}
+
+/* Sign In Button */
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--secondary);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+}
+
+.login-btn:hover {
+    background-color: #2980b9; /* Slightly darker shade of secondary */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+}
+
+.login-btn:disabled {
+    background-color: var(--gray);
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Divider (New to Bookifystay?) */
+.login-divider {
+    margin: 2rem 0 1.5rem;
+    text-align: center;
+    position: relative;
+}
+
+.login-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #eee;
+    z-index: 1;
+}
+
+.login-divider span {
+    background-color: white;
+    padding: 0 15px;
+    color: var(--gray);
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* Footer Link (Register) */
+.register-link {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--dark);
+}
+
+.register-link a {
+    color: var(--secondary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.register-link a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Error Messages (for the small tags in my previous JS fix) */
+small {
+    font-size: 0.85rem;
+    margin-top: 5px;
+    display: block;
+    color: var(--accent);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .login-container {
+        box-shadow: none;
+        background: transparent;
+    }
+    
+    .login-header {
+        padding: 1.5rem 1rem 0.5rem;
+    }
+    
+    .login-body {
+        padding: 1rem 1rem 2rem;
+    }
+
+    .form-control {
+        padding: 14px; /* Larger touch target for mobile */
+    }
+}

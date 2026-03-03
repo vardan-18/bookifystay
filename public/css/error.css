@@ -1,0 +1,285 @@
+/* error.css - Error Page Styles */
+:root {
+    --error-primary: #2c3e50;
+    --error-secondary: #3498db;
+    --error-accent: #e74c3c;
+    --error-warning: #f39c12;
+    --error-success: #27ae60;
+    --error-light: #ecf0f1;
+    --error-dark: #2c3e50;
+    --error-gray: #95a5a6;
+    --error-light-gray: #f8f9fa;
+    --error-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --error-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --error-transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: var(--error-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.error-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 70vh;
+}
+
+.error-content {
+    text-align: center;
+    background: white;
+    padding: 50px 40px;
+    border-radius: 16px;
+    box-shadow: var(--error-card-shadow);
+    max-width: 500px;
+    width: 100%;
+    border: 1px solid #e1e5e9;
+    position: relative;
+    overflow: hidden;
+}
+
+.error-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        var(--error-secondary) 0%, 
+        var(--error-accent) 50%, 
+        var(--error-warning) 100%);
+}
+
+.error-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    animation: errorBounce 2s infinite;
+}
+
+/* Different colors for different error types */
+.error-icon .fa-map-signs { color: var(--error-secondary); }
+.error-icon .fa-exclamation-triangle { color: var(--error-warning); }
+.error-icon .fa-lock { color: var(--error-accent); }
+.error-icon .fa-user-lock { color: var(--error-primary); }
+.error-icon .fa-exclamation-circle { color: var(--error-gray); }
+
+@keyframes errorBounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.error-code {
+    font-size: 6rem;
+    font-weight: 800;
+    color: var(--error-primary);
+    margin-bottom: 10px;
+    line-height: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.error-title {
+    font-size: 1.8rem;
+    color: var(--error-dark);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.error-message {
+    color: var(--error-gray);
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.error-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--error-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    min-width: 140px;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: var(--error-secondary);
+    color: white;
+    border: 2px solid var(--error-secondary);
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+    border-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--error-primary);
+    color: var(--error-primary);
+}
+
+.btn-outline:hover {
+    background: var(--error-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3);
+}
+
+.btn-secondary {
+    background: var(--error-success);
+    color: white;
+    border: 2px solid var(--error-success);
+}
+
+.btn-secondary:hover {
+    background: #219a52;
+    border-color: #219a52;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+}
+
+.error-details {
+    margin-top: 25px;
+    padding: 15px;
+    background: var(--error-light-gray);
+    border-radius: 8px;
+    border-left: 4px solid var(--error-accent);
+    text-align: left;
+}
+
+.error-details summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--error-dark);
+    padding: 5px 0;
+    transition: var(--error-transition);
+}
+
+.error-details summary:hover {
+    color: var(--error-secondary);
+}
+
+.error-details pre {
+    margin-top: 10px;
+    color: var(--error-gray);
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+    line-height: 1.4;
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #e1e5e9;
+}
+
+/* Error type specific styles */
+.error-404 .error-code { color: var(--error-secondary); }
+.error-500 .error-code { color: var(--error-warning); }
+.error-403 .error-code { color: var(--error-accent); }
+.error-401 .error-code { color: var(--error-primary); }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .error-content {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+
+    .error-code {
+        font-size: 4rem;
+    }
+
+    .error-title {
+        font-size: 1.5rem;
+    }
+
+    .error-message {
+        font-size: 1rem;
+    }
+
+    .error-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .error-container {
+        padding: 20px 15px;
+    }
+
+    .error-content {
+        padding: 25px 20px;
+    }
+
+    .error-code {
+        font-size: 3rem;
+    }
+
+    .error-title {
+        font-size: 1.3rem;
+    }
+
+    .error-message {
+        font-size: 0.95rem;
+    }
+
+    .error-icon {
+        font-size: 3rem;
+    }
+}
+
+/* Loading animation for error page */
+.error-loading {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.error-loaded {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.5s ease;
+}

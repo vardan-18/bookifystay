@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'BOOKIFYSTAY' %></title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-hotel"></i>
+                    <span>BOOKIFYSTAY</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/listing">Home</a></li>
+                    <li><a href="/listing/new">New Listing</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <% if(!currUser) { %>
+                    <form action="/login" method="get"><button class="btn btn-outline">Login</button></form>
+                    <form action="/signup" method="get"><button class="btn btn-primary">Sign Up</button></form>
+                    <% } %>
+                    <% if(currUser) {%>
+                        <form action="/logout" method="get"><button class="btn btn-primary">Log Out</button></form>
+                    <% } %>
+                </div>
+                <div class="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <% if (typeof success !== 'undefined' && success.length > 0) { %>
+        <div class="flash-container">
+            <div class="flash-message success-message">
+                <div class="flash-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="flash-content"><h4>Success!</h4><p><%= success %></p></div>
+                <button type="button" class="flash-close" onclick="this.parentElement.style.display='none';"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    <% } %>
+
+    <% if (typeof error !== 'undefined' && error.length > 0) { %>
+        <div class="flash-container">
+            <div class="flash-message error-message">
+                <div class="flash-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="flash-content"><h4>Oops!</h4><p><%= error %></p></div>
+                <button type="button" class="flash-close" onclick="this.parentElement.style.display='none';"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    <% } %>
+
+    <main class="container">
+        <div class="listing-detail">
+            <div class="back-nav">
+                <a href="/listing" class="btn btn-outline back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Listings
+                </a>
+            </div>
+
+            <div class="listing-header">
+                <h1 class="listing-title"><%= listed.title %></h1>
+                <div class="listing-meta">
+                    <span class="location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <%= listed.location %>, <%= listed.country %>
+                    </span>
+                </div>
+            </div>
+
+            <div class="listing-image-full">
+    <div class="main-image-full">
+        <img src="<%= (listed.image && listed.image.url) ? listed.image.url : listed.image %>" 
+             alt="<%= listed.title %>" 
+             class="listing-img-full">
+    </div>
+    </div>
+
+            <div class="listing-content-below-image">
+                <div class="reviews-column">
+                   <% if(currUser) { %>
+                    <div class="review-form-container">
+                        <h4 class="section-title">Write a Review</h4>
+                        <form action="/listing/<%= listed.id %>/review" method="post" class="review-form needs-validation" novalidate>
+                            <div class="form-group">
+                                <label for="rating" class="form-label">Rating</label>
+                                <input type="range" name="rating" id="rating" min="1" max="5" class="form-range rating-slider" required>
+                                <div class="rating-labels">
+                                    <span>1 ★</span><span>2 ★★</span><span>3 ★★★</span><span>4 ★★★★</span><span>5 ★★★★★</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment" class="form-label">Your Review</label>
+                                <textarea name="comment" id="comment" class="form-control" placeholder="Share your experience..." rows="3" ></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary submit-btn">Submit Review</button>
+                        </form>
+                    </div>
+                    <% } %>
+
+                    <div class="reviews-container">
+                        <h4 class="section-title">
+                            Guest Reviews 
+                            <% if (listed.reviews && listed.reviews.length > 0) { %>
+                                <span class="review-count">(<%= listed.reviews.length %>)</span>
+                            <% } %>
+                        </h4>
+                        
+                        <% if (listed.reviews && listed.reviews.length > 0) { %>
+                            <div class="reviews-list">
+                                <% for(review of listed.reviews) { %>
+                                    <div class="review-item">
+                                        <div class="review-header">
+                                            <div class="review-meta">
+                                                <strong><%= review.author.username || 'Anonymous' %></strong>
+                                                <span class="review-date"><%= review.createdAt.toLocaleDateString() %></span>
+                                            </div>
+                                            <div class="review-rating">
+                                                <% for(let i = 1; i <= 5; i++) { %>
+                                                    <span class="star <%= i <= review.rating ? 'filled' : '' %>">★</span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                        <p class="review-comment"><%= review.comment %></p>
+                                        <% if(currUser && currUser._id.equals(review.author._id)) { %>
+                                            <form action="/listing/<%= listed.id %>/review/<%= review._id %>?_method=DELETE" method="POST" style="margin-top: 5px;">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        <% } %>
+                                    </div>
+                                <% } %>
+                            </div>
+                        <% } else { %>
+                            <div class="no-reviews">
+                                <i class="fas fa-comment-slash"></i>
+                                <p>No reviews yet.</p>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="details-column">
+                    <div class="booking-card">
+                        <div class="price-section">
+                            <span class="price">&#8377; <%= listed.price.toLocaleString("en-IN") %></span>
+                            <span class="price-label">per night</span>
+                        </div>
+                        
+                        <% if(currUser) { %>
+                                    <button type="button" class="btn btn-primary book-btn" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                                        <i class="fas fa-calendar-check"></i> Request to Book
+                                    </button>
+                                <% } else { %>
+                                    <a href="/login" class="btn btn-primary book-btn" style="text-decoration:none; display:flex; justify-content:center; align-items:center;">
+                                        <i class="fas fa-lock" style="margin-right:8px;"></i> Login to Book
+                                    </a>
+                        <% } %>
+                            
+                            <% if(currUser) { %>
+                                <button type="button" class="btn btn-outline contact-btn" data-bs-toggle="modal" data-bs-target="#contactModal">
+                                    <i class="fas fa-envelope"></i> Contact Host
+                                </button>
+                            <% } else { %>
+                                <a href="/login" class="btn btn-outline contact-btn" style="text-decoration:none; display:flex; justify-content:center; align-items:center;">
+                                    <i class="fas fa-lock" style="margin-right:8px;"></i> Login to Contact
+                                </a>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <div class="description-section">
+                        <div class="description-card">
+                            <h3>Description</h3>
+                            <p class="description-text"><%= listed.description %></p>
+                        </div>
+                        <div class="amenities-card">
+                            <h3>Amenities</h3>
+                            <div class="amenities-list">
+                                <div class="amenity-item"><i class="fas fa-wifi"></i><span>Free WiFi</span></div>
+                                <div class="amenity-item"><i class="fas fa-swimming-pool"></i><span>Pool</span></div>
+                                <div class="amenity-item"><i class="fas fa-utensils"></i><span>Restaurant</span></div>
+                                <div class="amenity-item"><i class="fas fa-car"></i><span>Parking</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <% if(currUser && currUser._id.toString() === listed.owner._id.toString()) { %>
+                        <div class="admin-actions">
+                            <h3>Manage Listing</h3>
+                            <div class="action-buttons">
+                                <a href="/listing/<%= listed._id %>/edit" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                                <form action="/listing/<%= listed._id %>?_method=DELETE" method="POST" class="delete-form">
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this listing?')"><i class="fas fa-trash"></i> Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="contactModalLabel">Contact Host of <%= listed.title %></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <% if(listed.contact && (listed.contact.phone || listed.contact.email)) { %>
+                <div class="d-grid gap-3">
+                    <div class="p-3 border rounded bg-light">
+                        <h6 class="text-muted mb-1"><i class="fas fa-phone-alt me-2"></i>Phone Number</h6>
+                        <p class="fs-5 fw-bold mb-0">
+                            <a href="tel:<%= listed.contact.phone %>" class="text-decoration-none text-dark"><%= listed.contact.phone %></a>
+                        </p>
+                    </div>
+                    <div class="p-3 border rounded bg-light">
+                        <h6 class="text-muted mb-1"><i class="fas fa-envelope me-2"></i>Email Address</h6>
+                        <p class="fs-5 fw-bold mb-0">
+                            <a href="mailto:<%= listed.contact.email %>" class="text-decoration-none text-dark"><%= listed.contact.email %></a>
+                        </p>
+                    </div>
+                    <p class="small text-muted text-center mt-2"><i class="fas fa-shield-alt"></i> </p>
+                </div>
+            <% } else { %>
+                <div class="alert alert-warning"><i class="fas fa-exclamation-circle"></i> No contact information available.</div>
+            <% } %>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+   <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="bookingModalLabel">Book <%= listed.title %></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+          <form action="/listing/<%= listed._id %>/book" method="POST" class="needs-validation" id="uniqueBookingForm" data-price="<%= listed.price %>" novalidate>
+              <div class="modal-body">
+                  <div class="row mb-3">
+                      <div class="col-6">
+                          <label for="uniqueCheckIn" class="form-label">Check-in</label>
+                          <input type="date" class="form-control" id="uniqueCheckIn" name="checkIn" required>
+                      </div>
+                      <div class="col-6">
+                          <label for="uniqueCheckOut" class="form-label">Check-out</label>
+                          <input type="date" class="form-control" id="uniqueCheckOut" name="checkOut" required>
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="uniqueGuestEmail" class="form-label">Contact Email</label>
+                      <input type="email" class="form-control" id="uniqueGuestEmail" name="guestEmail" value="<%= currUser ? currUser.email : '' %>" required>
+                      <small class="text-muted">The host will use this to confirm your booking.</small>
+                  </div>
+                  <hr>
+                  <div class="d-flex justify-content-between align-items-center mt-3">
+                      <h6 class="mb-0">Estimated Total:</h6>
+                      <h4 class="mb-0 text-primary" id="uniqueEstimatedTotal">₹ 0</h4>
+                  </div>
+                  <input type="hidden" id="uniqueTotalPriceInput" name="totalPrice" value="0">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Send Booking Request</button>
+              </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+
+    <footer>
+       <%- include('partials/footer') %>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <script>
+    (function() {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+
+    const ratingInput = document.getElementById('rating');
+    if(ratingInput){
+        ratingInput.addEventListener('input', function(e) {
+            const value = e.target.value;
+            const labels = document.querySelectorAll('.rating-labels span');
+            labels.forEach((label, index) => {
+                if (index + 1 == value) {
+                    label.style.color = '#ffc107';
+                    label.style.fontWeight = 'bold';
+                } else {
+                    label.style.color = '#6c757d';
+                    label.style.fontWeight = 'normal';
+                }
+            });
+        });
+    }
+
+    // --- Book now button calculations ---
+   
+    // Mobile menu toggle
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    if (mobileToggle && navLinks) {
+        mobileToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+    }
+    </script>
+
+    <script>
+        // --- Book now button calculations ---
+    console.log("🚀 Calculator Script Loaded!"); 
+    
+    const checkInInput = document.getElementById('uniqueCheckIn');
+    const checkOutInput = document.getElementById('uniqueCheckOut');
+    const totalDisplay = document.getElementById('uniqueEstimatedTotal');
+    const hiddenTotalInput = document.getElementById('uniqueTotalPriceInput');
+    const bookingForm = document.getElementById('uniqueBookingForm');
+    
+    if (bookingForm && checkInInput && checkOutInput) {
+        const pricePerNight = Number(bookingForm.getAttribute('data-price'));
+        console.log("💵 Price per night found:", pricePerNight); 
+
+        function calculateTotal() {
+            console.log("🔄 Dates selected, calculating..."); 
+            
+            if(checkInInput.value && checkOutInput.value) {
+                const start = new Date(checkInInput.value);
+                const end = new Date(checkOutInput.value);
+                
+                const diffTime = end.getTime() - start.getTime();
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                
+                console.log("📅 Days requested:", diffDays); 
+                
+                if(diffDays > 0) {
+                    const totalCost = diffDays * pricePerNight;
+                    totalDisplay.innerText = "₹ " + totalCost.toLocaleString("en-IN");
+                    hiddenTotalInput.value = totalCost; 
+                    console.log("✅ Success! Total updated to:", totalCost);
+                } else if (diffDays === 0) {
+                    totalDisplay.innerText = "Minimum 1 night";
+                    hiddenTotalInput.value = 0;
+                } else {
+                    totalDisplay.innerText = "Invalid Dates";
+                    hiddenTotalInput.value = 0;
+                }
+            }
+        }
+
+        checkInInput.addEventListener('change', calculateTotal);
+        checkOutInput.addEventListener('change', calculateTotal);
+        checkInInput.addEventListener('input', calculateTotal);
+        checkOutInput.addEventListener('input', calculateTotal);
+    } else {
+        console.error("❌ CRITICAL ERROR: Could not find the unique booking form or inputs.");
+    }
+    </script>
+</body>
+</html>

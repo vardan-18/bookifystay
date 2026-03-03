@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a New Listing - BOOKIFYSTAY</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styleNew.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <%- include('partials/header', { title: 'Create a New Listing - BOOKIFYSTAY' }) %>
+
+    <main class="container">
+        <div class="form-page">
+            <div class="back-nav">
+                <a href="/listing" class="btn btn-outline-secondary back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Listings
+                </a>
+            </div>
+
+            <div class="form-header">
+                <h1>Create a New Listing</h1>
+                <p>Share your amazing property with travelers from around the world</p>
+            </div>
+
+            <div class="form-container">
+                <form action="/listing" method="POST" enctype="multipart/form-data" novalidate class="listing-form needs-validation" id="listingForm">
+                    <div class="form-group mb-4">
+                        <label for="title" class="form-label">
+                            <i class="fas fa-heading"></i> Title
+                        </label>
+                        <input 
+                            id="title"
+                            name="title" 
+                            type="text" 
+                            placeholder="Enter a catchy title for your listing" 
+                            class="form-control"
+                            required
+                            maxlength="100"
+                        >
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please enter a title between 10 and 100 characters.</div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="description" class="form-label">
+                            <i class="fas fa-align-left"></i> Description
+                        </label>
+                        <textarea 
+                            id="description"
+                            name="description" 
+                            placeholder="Describe your property..." 
+                            class="form-control"
+                            rows="5"
+                            required
+                        ></textarea>
+                        <div class="valid-feedback">Great description!</div>
+                        <div class="invalid-feedback">Please enter a description.</div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-image"></i> Property Image
+                        </label>
+                        
+                        <div class="image-preview-container mb-3" id="imagePreviewContainer">
+                            <div class="image-upload-placeholder" id="imagePlaceholder">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <div class="image-upload-text">Click to upload or drag and drop</div>
+                                <div class="image-upload-requirements">JPG, PNG, JPEG</div>
+                            </div>
+                        </div>
+                        
+                        <div class="upload-btn">
+                            <input 
+                                type="file" 
+                                id="image"
+                                name="image" 
+                                accept="image/*" 
+                                class="form-control"
+                                required
+                                onchange="previewImage(event)"
+                            >
+                            <button type="button" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-upload"></i> Choose Image
+                            </button>
+                        </div>
+                        
+                        <div class="file-info" id="fileInfo"></div>
+                        <div class="invalid-feedback">Please select a valid image file.</div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="price" class="form-label">
+                            <i class="fas fa-tag"></i> Price per Night (₹)
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">₹</span>
+                            <input 
+                                id="price"
+                                name="price" 
+                                type="number" 
+                                placeholder="0" 
+                                class="form-control"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="location" class="form-label">
+                                    <i class="fas fa-map-marker-alt"></i> Location
+                                </label>
+                                <input 
+                                    id="location"
+                                    name="location" 
+                                    type="text" 
+                                    placeholder="City, Area" 
+                                    class="form-control"
+                                    required
+                                >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="country" class="form-label">
+                                    <i class="fas fa-globe"></i> Country
+                                </label>
+                                <input 
+                                    id="country"
+                                    name="country" 
+                                    type="text" 
+                                    placeholder="Country name" 
+                                    class="form-control"
+                                    required
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="border-bottom pb-2 mb-3 text-muted">Contact Information</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone" class="form-label">
+                                    <i class="fas fa-phone-alt"></i> Phone Number
+                                </label>
+                                <input 
+                                    id="phone"
+                                    name="contact[phone]" 
+                                    type="tel" 
+                                    placeholder="e.g. +91 9876543210" 
+                                    class="form-control"
+                                    required
+                                >
+                                <div class="invalid-feedback">Please enter a valid phone number.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email" class="form-label">
+                                    <i class="fas fa-envelope"></i> Email Address
+                                </label>
+                                <input 
+                                    id="email"
+                                    name="contact[email]" 
+                                    type="email" 
+                                    placeholder="e.g. host@example.com" 
+                                    class="form-control"
+                                    required
+                                >
+                                <div class="invalid-feedback">Please enter a valid email address.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions mt-4">
+                        <button type="submit" class="btn btn-primary submit-btn me-3">
+                            <i class="fas fa-plus-circle"></i> Create Listing
+                        </button>
+                        <a href="/listing" class="btn btn-outline-secondary cancel-btn">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+
+                <div class="form-preview">
+                    <h3>Preview</h3>
+                    <div class="preview-card">
+                        <div class="preview-image" id="previewImageContainer">
+                            <div class="image-placeholder" id="previewImagePlaceholder">
+                                <i class="fas fa-home"></i>
+                                <span>Image will appear here</span>
+                            </div>
+                        </div>
+                        <div class="preview-content">
+                            <h4 class="preview-title" id="previewTitle">Your Listing Title</h4>
+                            <p class="preview-description" id="previewDescription">Description...</p>
+                            <div class="preview-price" id="previewPrice">₹ 0</div>
+                            <div class="preview-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="previewLocation">Location, Country</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const previewContainer = document.getElementById('imagePreviewContainer');
+            const fileInfo = document.getElementById('fileInfo');
+            const previewImageContainer = document.getElementById('previewImageContainer');
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                
+                fileInfo.innerHTML = `<span class="file-success">Selected: ${file.name}</span>`;
+                
+                reader.onload = function(e) {
+                    previewContainer.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = 'cover';
+                    previewContainer.appendChild(img);
+                    
+                    previewImageContainer.innerHTML = '';
+                    const previewImg = document.createElement('img');
+                    previewImg.src = e.target.result;
+                    previewImg.style.width = '100%';
+                    previewImg.style.height = '200px';
+                    previewImg.style.objectFit = 'cover';
+                    previewImageContainer.appendChild(previewImg);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Text preview logic
+        const inputs = ['title', 'description', 'price', 'location', 'country'];
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', updatePreview);
+        });
+
+        function updatePreview() {
+            document.getElementById('previewTitle').textContent = document.getElementById('title').value || 'Title';
+            document.getElementById('previewDescription').textContent = document.getElementById('description').value || 'Description...';
+            document.getElementById('previewPrice').textContent = '₹ ' + (document.getElementById('price').value || '0');
+            document.getElementById('previewLocation').textContent = 
+                (document.getElementById('location').value || 'Location') + ', ' + 
+                (document.getElementById('country').value || 'Country');
+        }
+
+        // Bootstrap validation script (if not already handled in your layout)
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</body>
+</html>

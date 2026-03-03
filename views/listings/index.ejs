@@ -1,0 +1,105 @@
+<%- include('partials/header', { title: 'All Listings - BOOKIFYSTAY' }) %>
+
+<main class="container">
+    <div class="page-header">
+        <h2>All Listings</h2>
+    </div>
+
+    <div class="listings-grid" id="listingsContainer">
+        
+        <% for(let listing of allListings) { %>
+        <div class="listing-card">
+            <div class="card-image">
+                <img src="<%= (listing.image && listing.image.url) ? listing.image.url : listing.image %>" 
+                     alt="<%= listing.title %>" 
+                     class="listing-img-full">
+                <div class="image-overlay"></div>
+            </div>
+            <div class="card-content">
+                
+                <a href="/listing/<%= listing._id %>" 
+                   class="listing-title listing-title-link"
+                   data-title="<%= listing.title.toLowerCase() %>" 
+                   data-location="<%= listing.location.toLowerCase() %>"
+                   data-country="<%= listing.country.toLowerCase() %>">
+                    <h3><%= listing.title %></h3>
+                </a>
+                
+                <div class="listing-info">
+                    <div class="price-section">
+                        <span class="price-icon">📖</span>
+                        <span class="price-amount">&#8377; <%= listing.price.toLocaleString("en-IN") %></span>
+                    </div>
+                    <p class="listing-description"><%= listing.description %></p>
+                </div>
+                
+                <div class="card-actions">
+                    <button class="action-btn heart-btn">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <form action="/listing/<%= listing._id %>" method="GET" class="view-details-form">
+                        <button type="submit" class="btn btn-outline view-details-btn">
+                            View Details
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+    
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('realTimeSearch');
+        const searchButton = document.getElementById('searchTriggerBtn');
+        const container = document.getElementById('listingsContainer');
+        const cards = container ? container.querySelectorAll('.listing-card') : [];
+
+        if (searchInput && container) {
+            
+          
+            function executeSearch() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+
+                cards.forEach(card => {
+                    const link = card.querySelector('.listing-title-link');
+                    
+                    if (link) {
+                        const title = (link.getAttribute('data-title') || '').toLowerCase();
+                        const location = (link.getAttribute('data-location') || '').toLowerCase();
+                        const country = (link.getAttribute('data-country') || '').toLowerCase();
+
+                       
+                        if (title.includes(searchTerm) || location.includes(searchTerm) || country.includes(searchTerm)) {
+                            card.style.display = 'block'; // Or '' (default)
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            }
+
+            
+            searchInput.addEventListener('input', executeSearch);
+
+          
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); 
+                    executeSearch();    
+                }
+            });
+
+            
+            if (searchButton) {
+                searchButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    executeSearch();
+                });
+            }
+        }
+    });
+</script>
+</main>
+
+<%- include('partials/footer') %>

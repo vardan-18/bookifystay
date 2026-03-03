@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'BOOKIFYSTAY - Premium Hotel Bookings' %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-hotel"></i>
+                    <span>BOOKIFYSTAY</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/listing">Home</a></li>
+                    <li><a href="/listing/new">New Listing</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <% if(currUser) { %>
+                        <li><a href="/listing/host/dashboard">My Dashboard</a></li>
+                        <li><a href="/listing/user/trips">My Trips</a></li>
+                    <% } %>
+                </ul>
+                <div class="search-bar mx-3">
+                <div class="d-flex" id="searchFormWrapper">
+                    <input class="form-control me-2 rounded-pill search-inp" 
+                   type="text" 
+                   name="q" 
+                   id="realTimeSearch"
+                   placeholder="Search destination, title..." 
+                   aria-label="Search" 
+                   style="width: 250px;">
+                    <button class="btn btn-primary rounded-pill" type="button" id="searchTriggerBtn">
+                 <i class="fas fa-search"></i>
+                    </button>
+                    </div>
+                 </div>
+                <div class="auth-buttons">
+                    <% if(!currUser) { %>
+                    <form action="/login" method="get"><button class="btn btn-outline">Login</button></form>
+                    <form action="/signup" method="get"><button class="btn btn-primary">Sign Up</button></form>
+                    <% } %>
+                    <% if(currUser) {%>
+                        <form action="/logout" method="get"><button class="btn btn-primary">Log Out</button></form>
+                    <% } %>
+                </div>
+                <div class="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+            
+        </nav>
+    
+    </header>
+  <% if (typeof success !== 'undefined' && success.length > 0) { %>
+    <div class="flash-container">
+        <div class="flash-message success-message">
+            <div class="flash-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="flash-content">
+                <h4>Success!</h4>
+                <p><%= success %></p>
+            </div>
+            <button type="button" class="flash-close" data-bs-dismiss="alert">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+<% } %>
+
+<% if (typeof error !== 'undefined' && error.length > 0) { %>
+    <div class="flash-container">
+        <div class="flash-message error-message">
+            <div class="flash-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="flash-content">
+                <h4>Oops!</h4>
+                <p><%= error %></p>
+            </div>
+            <button type="button" class="flash-close" data-bs-dismiss="alert">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+<% } %>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            
+            flashMessages.forEach(message => {
+                const closeBtn = message.querySelector('.flash-close');
+                
+                // Close button functionality
+                closeBtn.addEventListener('click', function() {
+                    message.classList.add('hiding');
+                    setTimeout(() => {
+                        if (message.parentElement) {
+                            message.remove();
+                        }
+                    }, 500);
+                });
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    if (message.parentElement) {
+                        message.classList.add('hiding');
+                        setTimeout(() => {
+                            if (message.parentElement) {
+                                message.remove();
+                            }
+                        }, 500);
+                    }
+                }, 5000);
+            });
+        });
+    </script>

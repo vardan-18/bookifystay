@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Your Listing - BOOKIFYSTAY</title>
+    <link rel="stylesheet" href="/css/styleEdit.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <%- include('partials/header', { title: 'Edit ' + listed.title + ' - BOOKIFYSTAY' }) %>
+    
+    <main class="container">
+        <div class="form-page">
+            <div class="back-nav">
+                <a href="/listing/<%= listed._id %>" class="btn btn-outline back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Listing
+                </a>
+            </div>
+
+            <div class="form-header">
+                <h1>Edit Your Listing</h1>
+                <p>Update your property details to keep your listing fresh and appealing</p>
+            </div>
+
+            <div class="form-container">
+                <form action="/listing/<%= listed._id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="listing-form">
+                    <div class="form-group">
+                        <label for="title" class="form-label">
+                            <i class="fas fa-heading"></i> Title
+                        </label>
+                        <input 
+                            id="title"
+                            name="title" 
+                            type="text" 
+                            value="<%= listed.title %>"
+                            class="form-input"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="form-label">
+                            <i class="fas fa-align-left"></i> Description
+                        </label>
+                        <textarea 
+                            id="description"
+                            name="description" 
+                            class="form-textarea"
+                            rows="5"
+                            required
+                        ><%= listed.description %></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-image"></i> Update Image
+                        </label>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <p style="font-size: 0.9rem; color: #666;">Current Image:</p>
+                            <img src="<%= (listed.image && listed.image.url) ? listed.image.url : listed.image %>" alt="Current Image" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px;">
+                        </div>
+
+                        <label for="image" style="display: block; font-size: 0.9rem; margin-bottom: 5px;">Upload New Image (Optional):</label>
+                        <input 
+                            id="image"
+                            name="image" 
+                            type="file" 
+                            class="form-input"
+                            accept="image/*"
+                        >
+                        <small class="form-help">Leave blank to keep the current image.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price" class="form-label">
+                            <i class="fas fa-tag"></i> Price per Night (₹)
+                        </label>
+                        <div class="price-input-container">
+                            <span class="currency-symbol">₹</span>
+                            <input 
+                                id="price"
+                                name="price" 
+                                type="number" 
+                                value="<%= listed.price %>"
+                                class="form-input price-input"
+                                min="0"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="location" class="form-label">
+                                <i class="fas fa-map-marker-alt"></i> Location
+                            </label>
+                            <input 
+                                id="location"
+                                name="location" 
+                                type="text" 
+                                value="<%= listed.location %>"
+                                class="form-input"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="country" class="form-label">
+                                <i class="fas fa-globe"></i> Country
+                            </label>
+                            <input 
+                                id="country"
+                                name="country" 
+                                type="text" 
+                                value="<%= listed.country %>"
+                                class="form-input"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1.5rem; border-top: 1px solid #eee; padding-top: 1rem;">
+                        <h3 style="font-size: 1.1rem; color: #666; margin-bottom: 1rem;">Contact Information</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone" class="form-label">
+                                    <i class="fas fa-phone"></i> Phone Number
+                                </label>
+                                <input 
+                                    id="phone"
+                                    name="contact[phone]" 
+                                    type="text" 
+                                    value="<%= listed.contact ? listed.contact.phone : '' %>"
+                                    class="form-input"
+                                    placeholder="+91 9876543210"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="form-label">
+                                    <i class="fas fa-envelope"></i> Email Address
+                                </label>
+                                <input 
+                                    id="email"
+                                    name="contact[email]" 
+                                    type="email" 
+                                    value="<%= listed.contact ? listed.contact.email : '' %>"
+                                    class="form-input"
+                                    placeholder="host@example.com"
+                                    required
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary submit-btn">
+                            <i class="fas fa-save"></i> Update Listing
+                        </button>
+                        <a href="/listing/<%= listed._id %>" class="btn btn-outline cancel-btn">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+
+                <div class="form-preview">
+                    <h3>Current Listing</h3>
+                    <div class="preview-card">
+                        <div class="preview-image">
+                            <img src="<%= (listed.image && listed.image.url) ? listed.image.url : listed.image %>" alt="<%= listed.title %>" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+                        </div>
+                        <div class="preview-content">
+                            <h4 class="preview-title"><%= listed.title %></h4>
+                            <p class="preview-description"><%= listed.description %></p>
+                            <div class="preview-price">₹ <%= listed.price.toLocaleString("en-IN") %></div>
+                            <div class="preview-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span><%= listed.location %>, <%= listed.country %></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>

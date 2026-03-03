@@ -1,0 +1,47 @@
+<%- include('../listings/partials/header', { title: 'Contact Us - BOOKIFYSTAY' }) %>
+
+<main class="container my-5">
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6 text-center text-md-start">
+            <h1 class="display-5 fw-bold text-primary mb-3">Get in Touch</h1>
+            <p class="lead text-muted mb-4">Have questions about a listing, need help with a booking, or just want to say hello? We're here to help.</p>
+            
+            <ul class="list-unstyled">
+                <li class="mb-3">
+                    <!-- <i class="fas fa-map-marker-alt fs-4 text-primary me-3 align-middle"></i>
+                    <span class="fs-5">123 Stay Avenue, Tech Park, San Francisco CA</span> -->
+                </li>
+                <li class="mb-3">
+                    <i class="fas fa-phone fs-4 text-primary me-3 align-middle"></i>
+                    <span class="fs-5">+1 (555) 123-4567</span>
+                </li>
+                <li>
+                    <i class="fas fa-envelope fs-4 text-primary me-3 align-middle"></i>
+                    <span class="fs-5">support@bookifystay.com</span>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="col-md-6 mt-5 mt-md-0">
+            <div class="card shadow-sm border-0 p-4">
+                <form action="#" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-bold">Your Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-bold">Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label fw-bold">Message</label>
+                        <textarea class="form-control" id="message" rows="5" placeholder="How can we help you?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('../listings/partials/footer') %>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOOKIFYSTAY</title>
+    <link rel="stylesheet" href="/css/error.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+   
+
+
+    <main class="error-container">
+        <div class="error-content">
+            <div class="error-icon">
+                <% if (statusCode === 404) { %>
+                    <i class="fas fa-map-signs"></i>
+                <% } else if (statusCode === 500) { %>
+                    <i class="fas fa-exclamation-triangle"></i>
+                <% } else if (statusCode === 403) { %>
+                    <i class="fas fa-lock"></i>
+                <% } else if (statusCode === 401) { %>
+                    <i class="fas fa-user-lock"></i>
+                <% } else { %>
+                    <i class="fas fa-exclamation-circle"></i>
+                <% } %>
+            </div>
+
+            <div class="error-code"><%= statusCode %></div>
+            
+            <h1 class="error-title">
+                <% if (statusCode === 404) { %>
+                    Page Not Found
+                <% } else if (statusCode === 500) { %>
+                    Server Error
+                <% } else if (statusCode === 403) { %>
+                    Access Denied
+                <% } else if (statusCode === 401) { %>
+                    Unauthorized
+                <% } else { %>
+                    Something Went Wrong
+                <% } %>
+            </h1>
+
+            <p class="error-message">
+                <%= message %>
+            </p>
+
+            <div class="error-actions">
+                <a href="/listing" class="btn btn-primary">
+                    <i class="fas fa-home"></i>
+                    Back to Home
+                </a>
+                <a href="javascript:history.back()" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i>
+                    Go Back
+                </a>
+                <!-- <a href="/contact" class="btn btn-secondary">
+                    <i class="fas fa-headset"></i>
+                    Get Help
+                </a> -->
+            </div>
+<!-- 
+            Error details for development -->
+            <!-- <% if (process.env.NODE_ENV === 'development') { %>
+                <details class="error-details">
+                    <summary>Technical Details</summary>
+                    <pre>Error <%= statusCode %>: <%= message %></pre>
+                    <pre>Path: <%= req.originalUrl %></pre>
+                    <pre>Method: <%= req.method %></pre>
+                </details>
+            <% } %> -->
+            </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/error.js"></script>
+</body>
+</html>

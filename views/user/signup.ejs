@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up | BookifyStay</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Temporary fallback styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+        }
+        
+        .main-content {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-hotel"></i>
+                    <span>BOOKIFYSTAY</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/listing">Home</a></li>
+                    <li><a href="/listing/new">New Listing</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+               
+                <div class="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Flash Messages -->
+    <% if (success && success.length > 0) { %>
+        <div class="flash-container">
+            <div class="flash-message success-message">
+                <div class="flash-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="flash-content">
+                    <h4>Success!</h4>
+                    <p><%= success %></p>
+                </div>
+                <button type="button" class="flash-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    <% } %>
+
+    <% if (error && error.length > 0) { %>
+        <div class="flash-container">
+            <div class="flash-message error-message">
+                <div class="flash-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="flash-content">
+                    <h4>Oops!</h4>
+                    <p><%= error %></p>
+                </div>
+                <button type="button" class="flash-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- Main Content -->
+    <div class="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Join BOOKIFYSTAY</h1>
+                <p>Create your account and start your journey</p>
+            </div>
+            <div class="login-body">
+                <form class="login-form" action="/signup" method="POST">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">Create Account</button>
+                    
+                    <div class="login-divider">
+                        <span>Already have an account?</span>
+                    </div>
+                    
+                    <div class="register-link">
+                        <p>Already registered? <a href="/login">Sign in here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="logo">
+                    <i class="fas fa-hotel"></i>
+                    <span>BOOKIFYSTAY</span>
+                </div>
+                <p>Find your perfect stay with BOOKIFYSTAY. We offer the best hotels and resorts around the world.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/listing">Home</a></li>
+                    <li><a href="/listing/new">New Listing</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Hotel Street, City</li>
+                    <li><i class="fas fa-phone"></i> +1 234 567 890</li>
+                    <li><i class="fas fa-envelope"></i> info@bookifystay.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 BOOKIFYSTAY. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Flash messages functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            
+            flashMessages.forEach(message => {
+                const closeBtn = message.querySelector('.flash-close');
+                
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function() {
+                        message.style.display = 'none';
+                    });
+                }
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    if (message.parentElement) {
+                        message.style.display = 'none';
+                    }
+                }, 5000);
+            });
+
+            // Mobile menu toggle
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileToggle && navLinks) {
+                mobileToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                    mobileToggle.innerHTML = navLinks.classList.contains('active') 
+                        ? '<i class="fas fa-times"></i>' 
+                        : '<i class="fas fa-bars"></i>';
+                });
+            }
+        });
+
+        // Form validation for signup
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector(".login-form");
+            if (!form) return;
+
+            const usernameInput = document.getElementById("username");
+            const emailInput = document.getElementById("email");
+            const passwordInput = document.getElementById("password");
+            const submitBtn = form.querySelector(".login-btn");
+
+            function validateUsername() {
+                const value = usernameInput.value.trim();
+                let isValid = true;
+
+                if (!value) {
+                    isValid = false;
+                } else if (value.length < 3) {
+                    isValid = false;
+                } else if (value.length > 20) {
+                    isValid = false;
+                } else if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+                    isValid = false;
+                }
+
+                updateSubmitButton();
+                return isValid;
+            }
+
+            function validateEmail() {
+                const value = emailInput.value.trim();
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const isValid = emailRegex.test(value);
+                
+                updateSubmitButton();
+                return isValid;
+            }
+
+            function validatePassword() {
+                const value = passwordInput.value;
+                let isValid = true;
+
+                if (!value) {
+                    isValid = false;
+                } else if (value.length < 6) {
+                    isValid = false;
+                }
+
+                updateSubmitButton();
+                return isValid;
+            }
+
+            function updateSubmitButton() {
+                if (submitBtn) {
+                    const valid = usernameInput.value.trim() && 
+                                 emailInput.value.trim() && 
+                                 passwordInput.value;
+                    submitBtn.disabled = !valid;
+                }
+            }
+
+            if (usernameInput) usernameInput.addEventListener("input", validateUsername);
+            if (emailInput) emailInput.addEventListener("input", validateEmail);
+            if (passwordInput) passwordInput.addEventListener("input", validatePassword);
+
+            form.addEventListener("submit", function (e) {
+                const isUsernameValid = validateUsername();
+                const isEmailValid = validateEmail();
+                const isPasswordValid = validatePassword();
+
+                if (!isUsernameValid || !isEmailValid || !isPasswordValid) {
+                    e.preventDefault();
+                    alert('Please fill in all fields correctly.');
+                }
+            });
+
+            updateSubmitButton();
+        });
+    </script>
+</body>
+</html>
