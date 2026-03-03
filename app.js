@@ -20,7 +20,7 @@ const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 const sessionOptions = {
-    secret: "mysecretkey",
+    secret: process.env.SESSION_SECRET || "mysecretkey",
     resave: false,
     saveUninitialized: true,
     cookie: {
