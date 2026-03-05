@@ -1,7 +1,10 @@
 const nodemailer = require("nodemailer");
+const dns = require("dns");
+
+dns.setDefaultResultOrder('ipv4first');
 
 const sendVerificationEmail = async (email, token) => {
-    // 1. Setup the dynamic URL
+   
     const baseUrl = process.env.BASE_URL || "http://localhost:8080";
     const url = `${baseUrl}/verify-email?token=${token}`;
     
@@ -24,10 +27,10 @@ const sendVerificationEmail = async (email, token) => {
             subject: 'Verify your BookifyStay Account',
             html: `
                 <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px; max-width: 600px; margin: auto;">
-                    <h2 style="color: #fe424d;">Welcome to BookifyStay!</h2>
+                    <h2 style="color: #0d6efd;">Welcome to BookifyStay!</h2>
                     <p>We're thrilled to have you here. Please verify your email to activate your account and start booking.</p>
                     <div style="margin: 25px 0;">
-                        <a href="${url}" style="background-color: #fe424d; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Verify Account</a>
+                        <a href="${url}" style="background-color: #0d6efd; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Verify Account</a>
                     </div>
                 </div>
             `
