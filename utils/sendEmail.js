@@ -1,8 +1,13 @@
 const nodemailer = require("nodemailer");
 
-
 const sendVerificationEmail = async (email, token) => {
-    const url = `http://localhost:8080/verify-email?token=${token}`;
+
+    const baseUrl = process.env.BASE_URL || "http://localhost:8080";
+    
+  
+    const url = `${baseUrl}/verify-email?token=${token}`;
+    
+}
     
     try {
         const transporter = nodemailer.createTransport({
