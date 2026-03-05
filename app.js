@@ -72,7 +72,7 @@ main().then(() => {
 });
 
 async function main() {
-    const dbUrl = process.env.ATLAS_URI;
+    const dbUrl = process.env.ATLAS_URI || 'mongodb://127.0.0.1:27017/bookifystay';
     await mongoose.connect(dbUrl);
     console.log("connected to db");
 }
@@ -92,7 +92,7 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.redirect("/listing");
+    res.send("This is working");
 });
 
 
@@ -108,7 +108,7 @@ app.use((err, req, res, next) => {
     console.log("-------------------------");
     
     let { statusCode = 500, message = "Something went wrong!" } = err;
-    res.status(statusCode).render("listing/error.ejs", { message, statusCode });
+    res.status(statusCode).render("listings/error.ejs", { message, statusCode });
 });
 
 app.listen(8080, () => {

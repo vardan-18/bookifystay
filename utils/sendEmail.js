@@ -13,7 +13,7 @@ const sendVerificationEmail = async (email, token) => {
             body: JSON.stringify({
                 sender: {
                     name: "BookifyStay",
-                    email: process.env.EMAIL_USER // MUST be the email you verified on Brevo!
+                    email: process.env.EMAIL_USER 
                 },
                 to: [{ email: email }],
                 subject: "Verify your BookifyStay Account",
