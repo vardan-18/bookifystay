@@ -92,7 +92,7 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.render("/listing");
+    res.redirect("/listing");
 });
 
 
