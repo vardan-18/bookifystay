@@ -92,7 +92,7 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.send("This is working");
+    res.render("/listing");
 });
 
 
