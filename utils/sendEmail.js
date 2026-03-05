@@ -1,27 +1,23 @@
 const nodemailer = require("nodemailer");
 
 const sendVerificationEmail = async (email, token) => {
-
+    // 1. Setup the dynamic URL
     const baseUrl = process.env.BASE_URL || "http://localhost:8080";
-    
-  
     const url = `${baseUrl}/verify-email?token=${token}`;
     
-}
-    
     try {
+        // 2. Configure the Transporter
         const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com', // Use this instead of "service: 'gmail'"
-    port: 465,
-    secure: true,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS 
-    }
-});
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS 
+            }
         });
 
-        
+        // 3. Setup the Email Options
         const mailOptions = {
             from: `"BookifyStay" <${process.env.EMAIL_USER}>`, 
             to: email, 
@@ -33,12 +29,11 @@ const sendVerificationEmail = async (email, token) => {
                     <div style="margin: 25px 0;">
                         <a href="${url}" style="background-color: #fe424d; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Verify Account</a>
                     </div>
-                    
                 </div>
             `
         };
 
-        
+        // 4. Send the Email
         await transporter.sendMail(mailOptions);
         console.log(`Verification email sent successfully to ${email}`);
 
